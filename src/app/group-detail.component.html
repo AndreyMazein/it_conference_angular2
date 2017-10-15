@@ -1,0 +1,126 @@
+<div *ngIf="currentGroup">
+
+  <div class="navbar">
+    <span class="navbar-brand">{{currentGroup.name}}</span>
+    <form class="form-inline">
+      <button class="btn" data-toggle="modal" data-target="#addModal" (click)="openModalAddtoGroup()">Add</button>
+      <button class="btn" data-toggle="modal" data-target="#editModal" (click)="openModalEditGroup()">Edit</button>
+    </form>
+  </div>
+
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLable" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLable">Change participants of group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelAddingOperation()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-6">
+                Out of this group
+                <table class="table">
+                  <tr class="table-active" >
+                    <th>Name</th>
+                    <th colspan="2">Email</th>
+                  </tr>
+                  <tr *ngFor="let p of otherParticipants" >
+                    <td>{{p.name}}</td>
+                    <td>{{p.email}}</td>
+                    <td><button class="close"><span (click)="addToCurrentGroup(p)" style="cursor: pointer">+</span></button></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-lg-6">
+                In your group
+                <table class="table">
+                  <tr class="table-active" >
+                    <th>Name</th>
+                    <th colspan="2">Email</th>
+                  </tr>
+                  <tr *ngFor="let p of participantsOfCurrentGroup" >
+                    <td>{{p.name}}</td>
+                    <td>{{p.email}}</td>
+                    <td><button class="close"><span (click)="deleteFromCurrentGroup(p)" style="cursor: pointer">&times;</span></button></td>
+                  </tr>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal" (click)="aplyAddingOperation()">Aply</button >
+          <button class="btn btn-secondary" data-dismiss="modal" (click)="cancelAddingOperation()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLable">Edit group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="canselChangesOfGroup()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter ID" [(ngModel)]="NewCurrentGroupName" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Description</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter surename" [(ngModel)]="NewCurrentGroupDescription" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="NewCurrentGroupName && NewCurrentGroupDescription" class="btn btn-primary" data-dismiss="modal" (click)="applyChangesOfGroup({'name': NewCurrentGroupName, 'description': NewCurrentGroupDescription})">Apply</button >
+          <button class="btn btn-secondary" data-dismiss="modal" (click)="canselChangesOfGroup()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-5 col-md-4 col-lg-3">
+      <h5>Description: </h5>
+      <div class="card">
+        <div class="card-body">
+          {{currentGroup.description}}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-7 col-md-8 col-lg-9">
+      <h5> Participants of this group: </h5>
+      <table class="table">
+        <tr class="table-active" >
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+        <tr *ngFor="let p of participants" >
+          <td *ngIf="p.groupID==currentGroup.id"><a routerLink="/users/{{p.id}}" routerLinkActive="active" >{{p.name}}</a></td>
+          <td *ngIf="p.groupID==currentGroup.id">{{p.email}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div>
+    <button class="btn" (click)="goBack()">Go back</button>
+  </div>
+</div>
+<div *ngIf="!currentGroup"><h2>Page not found!</h2></div>

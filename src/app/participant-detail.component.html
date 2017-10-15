@@ -1,0 +1,62 @@
+
+<div  *ngIf="participant">
+  <div class="navbar">
+                    <span class="navbar-brand">
+                                Participant detail
+                    </span>
+  </div>
+
+  <form style="padding: 16px">
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Name</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="participant.name" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Surename</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Enter surename" [(ngModel)]="participant.surname" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">E-mail</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Enter email" [(ngModel)]="participant.email" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Phone</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Enter phone" [(ngModel)]="participant.phone" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Group</label>
+      <div class="col-sm-9">
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{participant.groupName}}
+          </button>
+          <div class="dropdown-menu">
+            <button *ngFor="let g of groups" class="dropdown-item btn-sm" (click)="chooseGroup(g)">{{g.name}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn" (click)="goBack()">go Back</button>
+    </div>
+    <!--
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <button class="btn" (click)="editParticipant(participant)">
+          Apply
+        </button >
+      </div>
+    </div>
+    -->
+  </form>
+</div>
+<div *ngIf="!participant"><h2>Page not found!</h2></div>

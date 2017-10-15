@@ -1,0 +1,91 @@
+<div>
+  <div class="navbar">
+    <a class="navbar-brand" routerLink="/users" routerLinkActive="active" >Participants</a>
+    <form class="form-inline">
+      <button class="btn" data-toggle="modal" data-target="#addPartisipantModal" >Add</button>
+    </form>
+  </div>
+
+  <div class="modal fade" id="addPartisipantModal" tabindex="-1" role="dialog" aria-labelledby="addPartisipantModalLable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addPartisipantModalLable">New participant</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="canselAdding()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">ID</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter ID" [(ngModel)]="newParticipant_id" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="newParticipant_name" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Surename</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter surename" [(ngModel)]="newParticipant_surname" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">E-mail</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter email" [(ngModel)]="newParticipant_email" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Phone</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter phone" [(ngModel)]="newParticipant_phone" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Group</label>
+              <div class="col-sm-9">
+                <div class="btn-group">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{selectedGroup.name}}
+                  </button>
+                  <div class="dropdown-menu">
+                    <button *ngFor="let g of groups" class="dropdown-item btn-sm" (click)="chooseGroup(g)">{{g.name}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="newParticipant_id && newParticipant_name" class="btn btn-primary" (click)="addNewParticipant({'id': newParticipant_id, 'name': newParticipant_name, 'surname': newParticipant_surname, 'email': newParticipant_email, 'phone': newParticipant_phone,'groupID': selectedGroup.id, 'groupName': selectedGroup.name})">Add</button >
+          <button class="btn btn-secondary" data-dismiss="modal" (click)="canselAdding()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <table class="table">
+      <tr class="table-active" >
+        <th>Name</th>
+        <th>Email</th>
+        <th colspan="2">Group</th>
+      </tr>
+      <tr *ngFor="let p of participants" >
+        <td><a routerLink="/users/{{p.id}}" routerLinkActive="active">{{p.name}}</a></td>
+        <td>{{p.email}}</td>
+        <td *ngIf="p.groupID==0">{{p.groupName}}</td>
+        <td *ngIf="p.groupID!=0"><a routerLink="/groups/{{p.groupID}}" routerLinkActive="active">{{p.groupName}}</a></td>
+        <td><button class="close"><span (click)="deleteParicipants(p)" style="cursor: pointer">&times;</span></button></td>
+      </tr>
+    </table>
+  </div>
+</div>

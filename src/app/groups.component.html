@@ -1,0 +1,63 @@
+<div>
+  <div class="navbar">
+    <a class="navbar-brand" routerLink="/groups" routerLinkActive="active" >Groups</a>
+    <form class="form-inline">
+      <button class="btn" data-toggle="modal" data-target="#addGroupModal" >Add</button>
+    </form>
+  </div>
+
+  <div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="addGroupModalLable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addGroupModalLable">New group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelAdding()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Group ID</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter ID" [(ngModel)]="newGroup_id" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Group Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter name" [(ngModel)]="newGroup_name" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Group description</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Enter surename" [(ngModel)]="newGroup_description" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="newGroup_id && newGroup_name" class="btn btn-primary" (click)="addNewGroup({'id': newGroup_id, 'name': newGroup_name, 'description': newGroup_description})">Add</button >
+          <button class="btn btn-secondary" data-dismiss="modal" (click)="cancelAdding()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <table class="table">
+      <tr class="table-active" >
+        <th>Name</th>
+        <th colspan="2">Description</th>
+      </tr>
+      <tr *ngFor="let g of groups" >
+        <td><a routerLink="/groups/{{g.id}}" routerLinkActive="active">{{g.name}}</a></td>
+        <td>{{g.description}}</td>
+        <td><button class="close"><span (click)="deleteGroup(g)" style="cursor: pointer">&times;</span></button></td>
+      </tr>
+    </table>
+  </div>
+</div>
